@@ -18,22 +18,17 @@ The easy way to download huggingface models, without clicking on a button fifty 
 
 **To run without procompiled EXE:**
 
-    ```bash
     git clone [https://github.com/Acu-li/Acu.li-Inventory-Management-System](https://github.com/Acu-li/Acu.li-Huggingface-Downloader).git
     cd Acu.li-Huggingface-Downloader
-    ```
+    
 then just do:
 
-    ```bash
     pip install Pillow huggingface_hub
-    ```
+    
 and:
 
-    ```bash
     python down.py
-    ```
-   
-
+    
 ## Usage
 
 - Open your web browser and go to `http://localhost:5000` to access the Aculi IMS interface.
