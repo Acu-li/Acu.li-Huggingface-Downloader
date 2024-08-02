@@ -31,10 +31,11 @@ and:
     
 ## Usage
 
-- Open your web browser and go to `http://localhost:5000` to access the Aculi IMS interface.
-- Use the "Add Device" form to input new device details. Click on the "Add Device" button to submit.
-- View the list of devices on the main page.
-- Click the delete button next to a device to remove it from the list.
+- Click Next
+- Select Path where it should download
+- Paste in Model name (e.g., Aculi/TinyLlama-2B)
+- Click Next
+- Wait
 
 ## Contributing
 
@@ -44,8 +45,4 @@ Feel free to submit issues or pull requests if you have suggestions for improvem
 
 Feel free to fork this repository and rebrand the application as you wish. You are welcome to use, modify, and distribute the code in any way you see fit. Contributions to improve the project are always appreciated.
 
-## Acknowledgements
-
-- Flask: A lightweight WSGI web application framework in Python.
-- Docker: A platform for developing, shipping, and running applications in containers.
 
