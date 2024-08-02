@@ -1,38 +1,38 @@
 <img src="https://raw.githubusercontent.com/Fischherboot/Aculi/main/watermark-no-bg.png" alt="download.png" width="200" />
 
-# Aculi Inventory Management System (Aculi IMS)
+# Aculi Huggingface Downloader (Aculi HfD)
 
-Aculi IMS is a web-based inventory management system designed to help you track and manage your devices efficiently. This system is built using Flask and Docker to ensure easy deployment and scalability.
+The easy way to download huggingface models, without clicking on a button fifty times
 
 ## Features
 
-- Add, view, and delete devices
-- Store device information to keep track of all devices in your collection.
-- ~~Persistent storage of device data using Docker volumes~~ (Doesn't work, IDK what I did wrong. Will get fixed in v2.)
-- Nice looking web interface
-- All of that, contained in a single Docker container.
+- Can download Models
+- Doesnt support gated Models yet
+- Ugly GUI
 
 ## Prerequisites
 
-- Docker
-- Docker Compose
+```Pillow huggingface_hub```
 
 ## Installation
 
-1. **Clone the repository:**
+**To run without procompiled EXE:**
 
     ```bash
-    git clone https://github.com/Acu-li/Acu.li-Inventory-Management-System.git
-    cd Acu.li-Inventory-Management-System
+    git clone [https://github.com/Acu-li/Acu.li-Inventory-Management-System](https://github.com/Acu-li/Acu.li-Huggingface-Downloader).git
+    cd Acu.li-Huggingface-Downloader
     ```
-
-Alternatively, you can download the latest version from the [Releases page](https://github.com/Acu-li/Acu.li-Inventory-Management-System/releases).
-    
-2. **Build and run the application using Docker Compose:**
+then just do:
 
     ```bash
-    docker-compose up -d
+    pip install Pillow huggingface_hub
     ```
+and:
+
+    ```bash
+    python down.py
+    ```
+   
 
 ## Usage
 
