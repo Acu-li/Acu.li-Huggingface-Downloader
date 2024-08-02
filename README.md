@@ -18,7 +18,7 @@ The easy way to download huggingface models, without clicking on a button fifty 
 
 **To run without procompiled EXE:**
 
-    git clone [https://github.com/Acu-li/Acu.li-Inventory-Management-System](https://github.com/Acu-li/Acu.li-Huggingface-Downloader).git
+    git clone https://github.com/Acu-li/Acu.li-Huggingface-Downloader.git
     cd Acu.li-Huggingface-Downloader
     
 then just do:
