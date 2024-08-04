@@ -7,7 +7,7 @@ The easy way to download huggingface models, without clicking on a button fifty 
 ## Features
 
 - Can download Models
-- Doesnt support gated Models yet
+- Supports gated Models
 - Ugly GUI
 
 ## Prerequisites
