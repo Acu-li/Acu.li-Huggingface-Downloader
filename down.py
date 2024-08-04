@@ -4,13 +4,15 @@ import threading
 import time
 from tkinter import ttk
 import sys
-from huggingface_hub import snapshot_download
+from huggingface_hub import snapshot_download, login
 import os
 from PIL import Image, ImageTk  # Für Bildbearbeitung
 
 # Funktion zum Herunterladen des Modells
-def download_model(model_name, download_folder, progress_var):
+def download_model(model_name, download_folder, progress_var, token=None):
     try:
+        if token:
+            login(token=token)
         # Download des Modells
         snapshot_download(
             repo_id=model_name,
@@ -26,9 +28,9 @@ def download_model(model_name, download_folder, progress_var):
         sys.exit(1)
 
 # Funktion zum Ausführen des Downloads in einem separaten Thread
-def run_download(model_name, download_folder, progress_var):
+def run_download(model_name, download_folder, progress_var, close_button, token=None):
     def download_with_progress():
-        download_model(model_name, download_folder, progress_var)
+        download_model(model_name, download_folder, progress_var, token)
 
     def update_progress():
         start_time = time.time()
@@ -45,8 +47,16 @@ def run_download(model_name, download_folder, progress_var):
         # Fortschrittsbalken auf 100% setzen, wenn der Download abgeschlossen ist
         progress_var.set(100)
 
+    def show_close_button():
+        while progress_var.get() < 100:
+            time.sleep(0.1)
+            root.update_idletasks()
+        close_button.pack(side=tk.BOTTOM, anchor='se', pady=20, padx=20)
+        messagebox.showinfo("Notice", "Download complete")
+
     threading.Thread(target=download_with_progress).start()
     threading.Thread(target=update_progress).start()
+    threading.Thread(target=show_close_button).start()
 
 # Windows 7-Stil für Buttons
 def create_button(parent, text, command, width=10):
@@ -102,15 +112,22 @@ def next_screen(previous_frame):
     model_entry = tk.Entry(input_frame, width=50)
     model_entry.pack(pady=5, padx=20)
 
+    token_label = tk.Label(input_frame, text="Read Token (optional)", font=("Arial", 12), bg="#f0f0f0", fg="#565656")
+    token_label.pack(pady=10)
+
+    token_entry = tk.Entry(input_frame, width=50)
+    token_entry.pack(pady=5, padx=20)
+
     def start_download():
         model_name = model_entry.get()
         download_folder = folder_entry.get()
+        token = token_entry.get()
         if not model_name or not download_folder:
             messagebox.showerror("Error", "Please provide both model name and download folder.")
             return
 
         input_frame.destroy()
-        progress_screen(model_name, download_folder)
+        progress_screen(model_name, download_folder, token)
 
     button_frame = tk.Frame(input_frame, bg="#f0f0f0")
     button_frame.pack(side=tk.BOTTOM, anchor='se', pady=20, padx=20)
@@ -118,7 +135,7 @@ def next_screen(previous_frame):
     create_button(button_frame, "Next", start_download)
     create_button(button_frame, "Exit", root.quit)
 
-def progress_screen(model_name, download_folder):
+def progress_screen(model_name, download_folder, token):
     progress_frame = tk.Frame(root, bg="#f0f0f0")
     progress_frame.pack(fill='both', expand=True)
 
@@ -133,27 +150,20 @@ def progress_screen(model_name, download_folder):
     style = ttk.Style()
     style.configure("TProgressbar", troughcolor='#f0f0f0', background='#A46EBC', thickness=20)
 
-    run_download(model_name, download_folder, progress_var)
-
-    def check_completion():
-        while progress_var.get() < 100:
-            time.sleep(0.1)
-            root.update_idletasks()
-        progress_label.config(text="Download complete")
-
-    threading.Thread(target=check_completion).start()
-
     # Rahmen für die Buttons
     button_frame = tk.Frame(progress_frame, bg="#f0f0f0")
     button_frame.pack(side=tk.BOTTOM, anchor='se', pady=20, padx=20)
 
-    # Entferne den "Exit"-Button im letzten Fenster
-    create_button(button_frame, "Close", root.quit)
+    # Close-Button erstellen, aber nicht anzeigen
+    close_button = create_button(button_frame, "Close", root.quit)
+    close_button.pack_forget()
+
+    run_download(model_name, download_folder, progress_var, close_button, token)
 
 # Hauptanwendung
 root = tk.Tk()
 root.title("Aculi-HF-Downloader")
-root.geometry("400x300")
+root.geometry("400x400")
 root.configure(bg="#f0f0f0")
 
 # Setze das Icon des Fensters
