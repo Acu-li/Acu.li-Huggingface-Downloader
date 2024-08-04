@@ -34,6 +34,7 @@ and:
 - Click Next
 - Select Path where it should download
 - Paste in Model name (e.g., Aculi/TinyLlama-2B)
+- Add token if its a gated model
 - Click Next
 - Wait
 
